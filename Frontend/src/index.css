@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #f7f3ec;
+  color: #1a1a1a;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
