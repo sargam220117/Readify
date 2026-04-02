@@ -13,10 +13,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Attempt JWT Login
+
     const result = await login(username, password);
-    
+
     if (result.success) {
       navigate('/');
     } else {

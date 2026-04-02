@@ -82,7 +82,7 @@ const Coupons = () => {
           </h1>
           <p className="text-gray-500 dark:text-gray-400 font-bold mt-1 tracking-tight">Manage promotional discounts</p>
         </div>
-        <button 
+        <button
           onClick={() => setShowModal(true)}
           className="flex items-center justify-center space-x-2 bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl font-bold tracking-tight transition-all shadow-lg shadow-amber-600/20 hover:scale-105"
         >
@@ -141,7 +141,6 @@ const Coupons = () => {
         </div>
       )}
 
-      {/* Create Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 dark:border-gray-700">
@@ -151,27 +150,27 @@ const Coupons = () => {
                 <X size={24} />
               </button>
             </div>
-            
+
             <form onSubmit={handleCreate} className="p-8 space-y-6">
               <div className="space-y-2">
                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Coupon Code</label>
-                <input 
+                <input
                   type="text"
                   required
                   placeholder="E.G. SUMMER25"
                   className="w-full px-5 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white font-bold"
                   value={formData.code}
-                  onChange={e => setFormData({...formData, code: e.target.value})}
+                  onChange={e => setFormData({ ...formData, code: e.target.value })}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Type</label>
-                  <select 
+                  <select
                     className="w-full px-5 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white font-bold appearance-none"
                     value={formData.discountType}
-                    onChange={e => setFormData({...formData, discountType: e.target.value})}
+                    onChange={e => setFormData({ ...formData, discountType: e.target.value })}
                   >
                     <option value="percentage">Percentage</option>
                     <option value="fixed">Fixed Amount</option>
@@ -179,13 +178,13 @@ const Coupons = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Value</label>
-                  <input 
+                  <input
                     type="number"
                     required
                     placeholder="20"
                     className="w-full px-5 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white font-bold"
                     value={formData.discountValue}
-                    onChange={e => setFormData({...formData, discountValue: e.target.value})}
+                    onChange={e => setFormData({ ...formData, discountValue: e.target.value })}
                   />
                 </div>
               </div>
@@ -193,36 +192,36 @@ const Coupons = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Min Purchase</label>
-                  <input 
+                  <input
                     type="number"
                     required
                     placeholder="500"
                     className="w-full px-5 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white font-bold"
                     value={formData.minPurchase}
-                    onChange={e => setFormData({...formData, minPurchase: e.target.value})}
+                    onChange={e => setFormData({ ...formData, minPurchase: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Expiration</label>
-                  <input 
+                  <input
                     type="date"
                     required
                     className="w-full px-5 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white font-bold"
                     value={formData.expirationDate}
-                    onChange={e => setFormData({...formData, expirationDate: e.target.value})}
+                    onChange={e => setFormData({ ...formData, expirationDate: e.target.value })}
                   />
                 </div>
               </div>
 
               <div className="flex gap-4 pt-4">
-                <button 
+                <button
                   type="button"
                   onClick={() => setShowModal(false)}
                   className="flex-1 px-6 py-4 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 font-bold rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="flex-1 px-6 py-4 bg-[#1a1a1a] dark:bg-white text-white dark:text-[#1a1a1a] font-bold rounded-2xl hover:bg-amber-600 dark:hover:bg-amber-500 transition-all shadow-xl"
                 >

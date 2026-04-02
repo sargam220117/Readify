@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Coupon = require('../models/Coupon');
 
-// Validate a coupon code
 router.post('/validate', async (req, res) => {
   try {
     const { code, cartTotal } = req.body;
@@ -42,7 +41,6 @@ router.post('/validate', async (req, res) => {
   }
 });
 
-// Admin: Get all coupons
 router.get('/', async (req, res) => {
   try {
     const coupons = await Coupon.find().sort({ createdAt: -1 });
@@ -52,7 +50,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Admin: Create a coupon
 router.post('/', async (req, res) => {
   try {
     const coupon = new Coupon(req.body);
@@ -63,7 +60,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Admin: Toggle coupon status
 router.patch('/:id/toggle', async (req, res) => {
   try {
     const coupon = await Coupon.findById(req.params.id);
@@ -77,7 +73,6 @@ router.patch('/:id/toggle', async (req, res) => {
   }
 });
 
-// Admin: Delete a coupon
 router.delete('/:id', async (req, res) => {
   try {
     await Coupon.findByIdAndDelete(req.params.id);

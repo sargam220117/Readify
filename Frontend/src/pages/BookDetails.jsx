@@ -13,13 +13,12 @@ const BookDetails = () => {
   const { user } = useAuth();
   const { cart, addToCart, updateQuantity } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  
+
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // Review Form State
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -80,7 +79,7 @@ const BookDetails = () => {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!comment) return toast.error('Please add a comment');
-    
+
     setSubmittingReview(true);
     const formData = new FormData();
     formData.append('rating', rating);
@@ -93,12 +92,12 @@ const BookDetails = () => {
       await axios.post(`http://localhost:5000/api/books/${id}/reviews`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      
+
       toast.success('Review submitted successfully!');
       setComment('');
       setRating(5);
       setSelectedFiles([]);
-      
+
       const response = await axios.get(`http://localhost:5000/api/books/${id}`);
       setBook(response.data);
     } catch (error) {
@@ -110,12 +109,11 @@ const BookDetails = () => {
 
   const handleDeleteReview = async (reviewId) => {
     if (!window.confirm('Are you sure you want to delete your review?')) return;
-    
+
     try {
       await axios.delete(`http://localhost:5000/api/books/${id}/reviews/${reviewId}`);
       toast.success('Review deleted');
-      
-      // Refresh book data
+
       const response = await axios.get(`http://localhost:5000/api/books/${id}`);
       setBook(response.data);
     } catch (error) {
@@ -136,8 +134,8 @@ const BookDetails = () => {
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        {/* Breadcrumb / Back button */}
-        <button 
+
+        <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-gray-500 hover:text-amber-600 transition-colors mb-8 group"
         >
@@ -146,27 +144,25 @@ const BookDetails = () => {
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left: Image Container */}
+
           <div className="relative group">
             <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-2xl relative">
-              <img 
-                src={book.imageUrl} 
-                alt={book.title} 
+              <img
+                src={book.imageUrl}
+                alt={book.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <button 
+              <button
                 onClick={() => toggleWishlist(book)}
-                className={`absolute top-6 right-6 p-4 rounded-full transition-all duration-300 shadow-xl ${
-                  isWishlisted 
-                    ? 'bg-red-500 text-white' 
+                className={`absolute top-6 right-6 p-4 rounded-full transition-all duration-300 shadow-xl ${isWishlisted
+                    ? 'bg-red-500 text-white'
                     : 'bg-white/80 dark:bg-gray-900/80 text-gray-900 dark:text-white hover:text-red-500'
-                }`}
+                  }`}
               >
                 <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} />
               </button>
             </div>
-            
-            {/* Badges */}
+
             <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 hidden lg:block">
               <div className="flex items-center gap-4">
                 <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
@@ -182,7 +178,6 @@ const BookDetails = () => {
             </div>
           </div>
 
-          {/* Right: Content Container */}
           <div className="flex flex-col">
             <div className="mb-8">
               <span className="inline-block px-4 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-600 text-[10px] font-black uppercase tracking-widest mb-4">
@@ -218,37 +213,35 @@ const BookDetails = () => {
               </p>
             </div>
 
-            {/* Actions */}
             <div className="mb-12">
               <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Select Quantity</h3>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex items-center border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-1 bg-gray-50/50 dark:bg-gray-800/50">
-                  <button 
+                  <button
                     onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
                     className="w-12 h-12 flex items-center justify-center text-xl font-bold hover:text-amber-600 transition-colors dark:text-white"
                   >
                     -
                   </button>
                   <span className="w-12 text-center font-black dark:text-white">{quantity}</span>
-                  <button 
+                  <button
                     onClick={() => setQuantity(prev => prev + 1)}
                     className="w-12 h-12 flex items-center justify-center text-xl font-bold hover:text-amber-600 transition-colors dark:text-white"
                   >
                     +
                   </button>
                 </div>
-                <button 
+                <button
                   onClick={handleAddToCart}
                   disabled={adding || book.stock === 0}
                   className="flex-1 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-black uppercase tracking-widest py-4 px-8 rounded-2xl shadow-xl shadow-amber-600/20 transition-all flex items-center justify-center gap-3 active:scale-95"
                 >
                   <ShoppingCart size={20} />
-                {adding ? (cartItem ? 'Updating...' : 'Adding...') : (cartItem ? 'Update Quantity' : 'Add to Collection')}
-              </button>
+                  {adding ? (cartItem ? 'Updating...' : 'Adding...') : (cartItem ? 'Update Quantity' : 'Add to Collection')}
+                </button>
+              </div>
             </div>
-          </div>
 
-            {/* Features/Trust Badges */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-gray-100 dark:border-gray-800">
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 p-3 rounded-xl mb-3 text-emerald-600 transition-transform group-hover:scale-110">
@@ -272,7 +265,6 @@ const BookDetails = () => {
           </div>
         </div>
 
-        {/* Reviews Section */}
         <div className="mt-32 pt-16 border-t border-gray-100 dark:border-gray-800">
           <div className="mb-12">
             <h2 className="text-4xl font-black text-[#1a1a1a] dark:text-white tracking-tighter mb-2 flex items-center gap-3">
@@ -283,7 +275,7 @@ const BookDetails = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left: Summary & Form (Sticky Sidebar) */}
+
             <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
               <div className="bg-gray-50/50 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-100 dark:border-gray-700/50 p-8 rounded-[32px]">
                 <div className="flex items-center gap-6 mb-8">
@@ -304,7 +296,6 @@ const BookDetails = () => {
                   </div>
                 </div>
 
-                {/* Rating bars would go here for extra premium feel */}
                 <div className="space-y-2">
                   {[5, 4, 3, 2, 1].map((star) => {
                     const count = book.reviews?.filter(r => r.rating === star).length || 0;
@@ -321,7 +312,7 @@ const BookDetails = () => {
                   })}
                 </div>
               </div>
-              
+
               {user ? (
                 <div className="bg-white dark:bg-gray-900 border-2 border-gray-50 dark:border-gray-800 p-8 rounded-[32px] shadow-sm">
                   <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight mb-6 flex items-center gap-2">
@@ -344,7 +335,7 @@ const BookDetails = () => {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3">Comment</label>
                       <textarea
@@ -373,7 +364,7 @@ const BookDetails = () => {
                         <Camera size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{selectedFiles.length > 0 ? `Selected ${selectedFiles.length}` : 'Upload'}</span>
                       </button>
-                      
+
                       {selectedFiles.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-4">
                           {selectedFiles.map((file, idx) => (
@@ -404,7 +395,7 @@ const BookDetails = () => {
               ) : (
                 <div className="bg-amber-50 dark:bg-amber-900/10 border-2 border-amber-100 dark:border-amber-900/30 p-8 rounded-[32px] text-center">
                   <p className="text-amber-800 dark:text-amber-200 font-bold mb-4 italic text-sm">Sign in to share your review!</p>
-                  <button 
+                  <button
                     onClick={() => navigate('/login')}
                     className="text-amber-600 dark:text-amber-400 font-black uppercase tracking-widest text-xs hover:underline underline-offset-4"
                   >
@@ -414,7 +405,6 @@ const BookDetails = () => {
               )}
             </div>
 
-            {/* Right: Reviews List */}
             <div className="lg:col-span-8">
               {book.reviews?.length > 0 ? (
                 <div className="grid grid-cols-1 gap-8">
@@ -450,24 +440,24 @@ const BookDetails = () => {
                           </button>
                         )}
                       </div>
-                      
+
                       <div className="relative">
                         <div className="absolute left-1 top-0 bottom-0 w-1 bg-amber-100 dark:bg-amber-900/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-base font-medium pl-6">
                           {review.comment}
                         </p>
                       </div>
-                      
+
                       {review.images?.length > 0 && (
                         <div className="flex flex-wrap gap-4 mt-8 pl-6">
                           {review.images.map((img, idx) => {
                             const fullImgUrl = img.startsWith('http') ? img : `http://localhost:5000${img}`;
                             return (
                               <div key={idx} className="w-28 h-28 rounded-[24px] overflow-hidden border-2 border-white dark:border-gray-800 shadow-md cursor-zoom-in group/img">
-                                <img 
-                                  src={fullImgUrl} 
-                                  alt="review" 
-                                  className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700" 
+                                <img
+                                  src={fullImgUrl}
+                                  alt="review"
+                                  className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-700"
                                   onClick={() => window.open(fullImgUrl, '_blank')}
                                 />
                               </div>

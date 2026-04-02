@@ -21,10 +21,9 @@ const UserSignup = () => {
     }
 
     setLoading(true);
-    
-    // Attempt JWT Registration
+
     const result = await register(username, email, password);
-    
+
     if (result.success) {
       navigate('/');
     } else {

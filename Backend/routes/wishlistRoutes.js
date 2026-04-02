@@ -3,7 +3,6 @@ const router = express.Router();
 const Wishlist = require('../models/Wishlist');
 const Book = require('../models/Book');
 
-// Get user wishlist
 router.get('/:userId', async (req, res) => {
   try {
     const wishlist = await Wishlist.find({ user: req.params.userId }).populate('book');
@@ -13,7 +12,6 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// Add to wishlist
 router.post('/:userId/add', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -33,7 +31,6 @@ router.post('/:userId/add', async (req, res) => {
   }
 });
 
-// Remove from wishlist
 router.delete('/:userId/remove/:bookId', async (req, res) => {
   try {
     const { userId, bookId } = req.params;

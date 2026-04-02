@@ -13,7 +13,6 @@ const wishlistSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Prevent duplicate wishlist items for same user/book
 wishlistSchema.index({ user: 1, book: 1 }, { unique: true });
 
 module.exports = mongoose.model('Wishlist', wishlistSchema);

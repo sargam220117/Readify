@@ -3,8 +3,6 @@ const router = express.Router();
 const Cart = require('../models/Cart');
 const Book = require('../models/Book');
 
-// @desc    Get user cart
-// @route   GET /api/cart/:userId
 router.get('/:userId', async (req, res) => {
   try {
     let cart = await Cart.findOne({ user: req.params.userId }).populate('items.book');
@@ -17,8 +15,6 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// @desc    Add item to cart
-// @route   POST /api/cart/:userId/add
 router.post('/:userId/add', async (req, res) => {
   const { bookId, quantity = 1 } = req.body;
   try {
@@ -43,8 +39,6 @@ router.post('/:userId/add', async (req, res) => {
   }
 });
 
-// @desc    Update item quantity
-// @route   PUT /api/cart/:userId/update
 router.put('/:userId/update', async (req, res) => {
   const { bookId, quantity } = req.body;
   try {
@@ -69,8 +63,6 @@ router.put('/:userId/update', async (req, res) => {
   }
 });
 
-// @desc    Remove item from cart
-// @route   DELETE /api/cart/:userId/remove/:bookId
 router.delete('/:userId/remove/:bookId', async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.params.userId });

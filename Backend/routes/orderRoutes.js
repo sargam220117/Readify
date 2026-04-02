@@ -3,7 +3,6 @@ const router = express.Router();
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 
-// Create a new order (Checkout)
 router.post('/', async (req, res) => {
   try {
     const { 
@@ -22,13 +21,12 @@ router.post('/', async (req, res) => {
       discountAmount,
       couponCode,
       shippingAddress,
-      paymentStatus: 'Completed', // For now, we'll assume payment is successful
+      paymentStatus: 'Completed', 
       orderStatus: 'Processing'
     });
 
     const savedOrder = await newOrder.save();
 
-    // Clear the cart for the user after successful order
     await Cart.findOneAndUpdate(
       { userId },
       { $set: { items: [] } }
@@ -40,7 +38,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get user order history
 router.get('/user/:userId', async (req, res) => {
   try {
     const orders = await Order.find({ user: req.params.userId })
@@ -52,7 +49,6 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
-// Get single order details
 router.get('/:id', async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('items.book');

@@ -67,7 +67,7 @@ const Orders = () => {
         <div className="space-y-6">
           {orders.map((order) => (
             <div key={order._id} className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md group">
-              {/* Order Header */}
+
               <div className="p-6 sm:p-8 border-b border-gray-50 dark:border-gray-700 flex flex-wrap items-center justify-between gap-6">
                 <div className="flex gap-8">
                   <div className="space-y-1">
@@ -87,17 +87,15 @@ const Orders = () => {
                   </div>
                 </div>
                 <div>
-                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                    order.orderStatus === 'Delivered' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:border-emerald-800' :
-                    order.orderStatus === 'Processing' ? 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:border-amber-800' :
-                    'bg-blue-50 text-blue-600 border-blue-100'
-                  }`}>
+                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${order.orderStatus === 'Delivered' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:border-emerald-800' :
+                      order.orderStatus === 'Processing' ? 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:border-amber-800' :
+                        'bg-blue-50 text-blue-600 border-blue-100'
+                    }`}>
                     {order.orderStatus}
                   </span>
                 </div>
               </div>
 
-              {/* Order Items */}
               <div className="p-6 sm:p-8 space-y-6">
                 {order.items.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-6">
@@ -110,7 +108,7 @@ const Orders = () => {
                       </Link>
                       <p className="text-xs text-gray-500 mt-1 uppercase tracking-tight font-bold">Qty: {item.quantity} × ₹{item.price.toLocaleString()}</p>
                     </div>
-                    <Link 
+                    <Link
                       to={`/book/${item.book?._id}`}
                       className="hidden sm:flex items-center gap-2 text-amber-600 text-[10px] font-black uppercase tracking-widest hover:text-amber-700 transition-colors"
                     >
@@ -121,12 +119,11 @@ const Orders = () => {
                 ))}
               </div>
 
-              {/* Order Footer */}
               <div className="bg-gray-50/50 dark:bg-gray-800/50 p-4 px-8 border-t border-gray-50 dark:border-gray-700 flex justify-end">
-                 <button className="flex items-center gap-2 text-[#1a1a1a] dark:text-gray-300 text-[10px] font-black uppercase tracking-widest hover:text-amber-600 transition-colors group">
-                   Order Details
-                   <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                 </button>
+                <button className="flex items-center gap-2 text-[#1a1a1a] dark:text-gray-300 text-[10px] font-black uppercase tracking-widest hover:text-amber-600 transition-colors group">
+                  Order Details
+                  <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           ))}

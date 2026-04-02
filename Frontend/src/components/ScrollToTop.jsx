@@ -6,7 +6,6 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Also scroll any scrollable containers in the layouts (like the admin main area)
     const scrollContainers = document.querySelectorAll('.overflow-y-auto');
     scrollContainers.forEach(container => {
       container.scrollTo(0, 0);

@@ -13,7 +13,6 @@ export const CartProvider = ({ children }) => {
   const [coupon, setCoupon] = useState(null);
   const [discount, setDiscount] = useState(0);
 
-  // Initial cart load
   useEffect(() => {
     const fetchCart = async () => {
       if (user) {
@@ -24,7 +23,6 @@ export const CartProvider = ({ children }) => {
           console.error('Error fetching cart:', error);
         }
       } else {
-        // Load from localStorage for guest users if needed, or clear
         const localCart = localStorage.getItem('guestCart');
         if (localCart) {
           setCart(JSON.parse(localCart));
@@ -38,7 +36,6 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, [user]);
 
-  // Persistence for guest cart
   useEffect(() => {
     if (!user) {
       localStorage.setItem('guestCart', JSON.stringify(cart));
@@ -83,7 +80,7 @@ export const CartProvider = ({ children }) => {
       }
     } else {
       setCart(prev => {
-        const newItems = prev.items.map(item => 
+        const newItems = prev.items.map(item =>
           item.book._id === bookId ? { ...item, quantity: Math.max(0, quantity) } : item
         ).filter(item => item.quantity > 0);
         return { ...prev, items: newItems };
@@ -119,9 +116,9 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       setCoupon(null);
       setDiscount(0);
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Failed to apply coupon' 
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Failed to apply coupon'
       };
     }
   };
@@ -141,7 +138,6 @@ export const CartProvider = ({ children }) => {
   const rawTotal = cart.items.reduce((acc, item) => acc + (item.book.price * item.quantity), 0);
   const cartTotal = Math.max(0, rawTotal - discount);
 
-  // Recalculate discount if rawTotal changes
   useEffect(() => {
     if (coupon) {
       let newDiscount = 0;
@@ -151,8 +147,7 @@ export const CartProvider = ({ children }) => {
         newDiscount = coupon.discountValue;
       }
       setDiscount(Math.min(newDiscount, rawTotal));
-      
-      // If minPurchase is no longer met, remove coupon
+
       if (coupon.minPurchase && rawTotal < coupon.minPurchase) {
         setCoupon(null);
         setDiscount(0);
@@ -161,20 +156,20 @@ export const CartProvider = ({ children }) => {
   }, [rawTotal, coupon]);
 
   return (
-    <CartContext.Provider value={{ 
-      cart, 
-      addToCart, 
-      removeFromCart, 
-      updateQuantity, 
-      cartCount, 
-      cartTotal, 
+    <CartContext.Provider value={{
+      cart,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      cartCount,
+      cartTotal,
       rawTotal,
       discount,
       coupon,
       applyCoupon,
       removeCoupon,
       clearCart,
-      loading 
+      loading
     }}>
       {children}
     </CartContext.Provider>

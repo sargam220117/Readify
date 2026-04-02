@@ -9,14 +9,13 @@ const AdminLayout = ({ theme, toggleTheme }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-     return <div className="min-h-screen flex items-center justify-center font-bold text-slate-500">Loading Session...</div>;
+    return <div className="min-h-screen flex items-center justify-center font-bold text-slate-500">Loading Session...</div>;
   }
 
   if (!user) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Basic role-based protection (can be expanded later)
   if (user.email !== 'admin@readify.com') {
     return <Navigate to="/" replace />;
   }

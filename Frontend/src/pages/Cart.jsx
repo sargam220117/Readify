@@ -7,19 +7,19 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 const Cart = () => {
-  const { 
-    cart, 
-    updateQuantity, 
-    removeFromCart, 
-    cartTotal, 
+  const {
+    cart,
+    updateQuantity,
+    removeFromCart,
+    cartTotal,
     rawTotal,
     discount,
     coupon,
     applyCoupon,
     removeCoupon,
     clearCart,
-    cartCount, 
-    loading 
+    cartCount,
+    loading
   } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const Cart = () => {
         couponCode: coupon?.code || null,
         shippingAddress: {
           fullName: user.username,
-          address: '123 Book St', // Placeholder for now
+          address: '123 Book St',
           city: 'Read City',
           state: 'Knowledge',
           zipCode: '123456',
@@ -58,7 +58,7 @@ const Cart = () => {
       };
 
       const response = await axios.post('http://localhost:5000/api/orders', orderData);
-      
+
       if (response.status === 201) {
         toast.success('Order placed successfully!');
         clearCart();
@@ -101,7 +101,6 @@ const Cart = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
             {cart.items.map((item) => (
               <div key={item.book._id} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row items-center gap-6 group transition-all hover:shadow-md">
@@ -113,21 +112,21 @@ const Cart = () => {
                   <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">by {item.book.author}</p>
                   <div className="flex items-center justify-center sm:justify-start gap-4">
                     <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-[#f9f9f9] dark:bg-gray-700">
-                      <button 
+                      <button
                         onClick={() => updateQuantity(item.book._id, item.quantity - 1)}
                         className="p-2 text-gray-900 dark:text-white hover:text-amber-600 dark:hover:text-amber-600 transition-colors"
                       >
                         <Minus size={16} />
                       </button>
                       <span className="w-10 text-center font-bold text-gray-900 dark:text-white">{item.quantity}</span>
-                      <button 
+                      <button
                         onClick={() => updateQuantity(item.book._id, item.quantity + 1)}
                         className="p-2 text-gray-900 dark:text-white hover:text-amber-600 dark:hover:text-amber-600 transition-colors"
                       >
                         <Plus size={16} />
                       </button>
                     </div>
-                    <button 
+                    <button
                       onClick={() => removeFromCart(item.book._id)}
                       className="text-gray-400 hover:text-red-500 transition-colors"
                     >
@@ -143,7 +142,6 @@ const Cart = () => {
             ))}
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 sticky top-24">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-100 dark:border-gray-700 pb-4">Order Summary</h2>
@@ -168,7 +166,6 @@ const Cart = () => {
                 </div>
               </div>
 
-              {/* Coupon Section */}
               <div className="mb-6 p-4 bg-[#fcfaf7] dark:bg-gray-900/50 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl">
                 <label className="block text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-3">Promotional Code</label>
                 {coupon ? (
@@ -177,7 +174,7 @@ const Cart = () => {
                       <span className="text-emerald-700 dark:text-emerald-400 font-bold text-sm">{coupon.code}</span>
                       <p className="text-[10px] text-emerald-600/70 dark:text-emerald-500/70 font-bold uppercase tracking-tight">Applied Successfully</p>
                     </div>
-                    <button 
+                    <button
                       onClick={removeCoupon}
                       className="text-emerald-600 dark:text-emerald-400 hover:text-red-500 transition-colors"
                     >
@@ -186,14 +183,14 @@ const Cart = () => {
                   </div>
                 ) : (
                   <div className="flex gap-2">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="Enter coupon code"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
                       className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-gray-900 dark:text-white"
                     />
-                    <button 
+                    <button
                       onClick={handleApplyCoupon}
                       className="bg-[#1a1a1a] dark:bg-white text-white dark:text-[#1a1a1a] px-4 py-3 rounded-xl font-bold text-sm hover:bg-amber-600 dark:hover:bg-amber-500 transition-all active:scale-95"
                     >
@@ -207,7 +204,7 @@ const Cart = () => {
                   </p>
                 )}
               </div>
-              <button 
+              <button
                 onClick={handleCheckout}
                 className="w-full bg-amber-600 hover:bg-amber-700 text-white py-5 rounded-none font-bold text-lg transition-all shadow-lg shadow-amber-600/20 active:scale-95 flex items-center justify-center gap-2 group"
               >
@@ -216,9 +213,9 @@ const Cart = () => {
               </button>
               <div className="mt-6 pt-6 border-t border-gray-50 dark:border-gray-700/50">
                 <div className="flex items-center gap-4 opacity-50 flex-wrap justify-center">
-                   <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
-                   <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
-                   <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
+                  <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
+                  <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
+                  <div className="h-6 w-10 bg-gray-200 dark:bg-gray-700 rounded shadow-sm"></div>
                 </div>
                 <p className="text-[10px] text-gray-400 text-center mt-4 font-bold uppercase tracking-widest">Secure encrypted checkout</p>
               </div>

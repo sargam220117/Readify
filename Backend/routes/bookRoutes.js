@@ -4,8 +4,6 @@ const Book = require('../models/Book');
 const { protect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
-// @desc    Get all books
-// @route   GET /api/books
 router.get('/', async (req, res) => {
   try {
     const books = await Book.find();
@@ -15,8 +13,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @desc    Get book by ID
-// @route   GET /api/books/:id
 router.get('/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -30,9 +26,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @desc    Create a new review
-// @route   POST /api/books/:id/reviews
-// @access  Private
 router.post('/:id/reviews', protect, upload.array('images', 5), async (req, res) => {
   try {
     const { rating, comment } = req.body;
@@ -47,7 +40,6 @@ router.post('/:id/reviews', protect, upload.array('images', 5), async (req, res)
         return res.status(400).json({ message: 'You have already reviewed this book' });
       }
 
-      // Process uploaded files
       const imageUrls = req.files ? req.files.map(file => `/public/uploads/${file.filename}`) : [];
 
       const review = {
@@ -72,9 +64,6 @@ router.post('/:id/reviews', protect, upload.array('images', 5), async (req, res)
   }
 });
 
-// @desc    Delete a review
-// @route   DELETE /api/books/:id/reviews/:reviewId
-// @access  Private
 router.delete('/:id/reviews/:reviewId', protect, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -88,14 +77,12 @@ router.delete('/:id/reviews/:reviewId', protect, async (req, res) => {
         return res.status(404).json({ message: 'Review not found' });
       }
 
-      // Check authorization (only reviewer or admin can delete)
       if (book.reviews[reviewIndex].user.toString() !== req.user.id.toString()) {
         return res.status(401).json({ message: 'Not authorized to delete this review' });
       }
 
       book.reviews.splice(reviewIndex, 1);
 
-      // Update book's average rating
       if (book.reviews.length > 0) {
         book.rating = book.reviews.reduce((acc, item) => item.rating + acc, 0) / book.reviews.length;
       } else {
@@ -112,8 +99,6 @@ router.delete('/:id/reviews/:reviewId', protect, async (req, res) => {
   }
 });
 
-// @desc    Create a book
-// @route   POST /api/books
 router.post('/', async (req, res) => {
   try {
     const { title, author, genre, price, stock, imageUrl, description, rating } = req.body;
@@ -135,8 +120,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// @desc    Update a book
-// @route   PUT /api/books/:id
 router.put('/:id', async (req, res) => {
   try {
     const { title, author, genre, price, stock, imageUrl, description, rating } = req.body;
@@ -162,8 +145,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// @desc    Delete a book
-// @route   DELETE /api/books/:id
 router.delete('/:id', async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);

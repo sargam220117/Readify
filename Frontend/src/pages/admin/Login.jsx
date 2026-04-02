@@ -13,10 +13,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Attempt JWT Login
+
     const result = await login(username, password);
-    
+
     if (result.success) {
       navigate('/admin');
     } else {
@@ -27,7 +26,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight transition-colors">

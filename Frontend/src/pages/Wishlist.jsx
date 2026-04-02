@@ -35,45 +35,45 @@ const Wishlist = () => {
     <div className="bg-[#fcfaf7] dark:bg-gray-900 min-h-screen py-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 mb-12">
-            <Heart size={32} className="text-amber-600 fill-amber-600" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tighter">
+          <Heart size={32} className="text-amber-600 fill-amber-600" />
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tighter">
             My Wishlist<span className="text-amber-600">.</span>
-            </h1>
+          </h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {wishlist.map((book) => (
             <div key={book._id} className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700 group relative">
               <div className="h-48 bg-amber-50 dark:bg-gray-900 flex items-center justify-center p-6 relative overflow-hidden">
-                <img 
-                    src={book.imageUrl} 
-                    alt={book.title} 
-                    className="h-full object-cover rounded shadow-md group-hover:scale-110 transition-transform duration-500 z-10" 
+                <img
+                  src={book.imageUrl}
+                  alt={book.title}
+                  className="h-full object-cover rounded shadow-md group-hover:scale-110 transition-transform duration-500 z-10"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
-                    <span className="text-[10px] font-extrabold px-2 py-1 rounded bg-amber-100 text-amber-600 dark:bg-amber-900/30 uppercase tracking-widest">{book.genre}</span>
-                    <button 
-                        onClick={() => toggleWishlist(book)}
-                        className="text-gray-300 hover:text-red-500 transition-colors"
-                        title="Remove from wishlist"
-                    >
-                        <Trash2 size={18} />
-                    </button>
+                  <span className="text-[10px] font-extrabold px-2 py-1 rounded bg-amber-100 text-amber-600 dark:bg-amber-900/30 uppercase tracking-widest">{book.genre}</span>
+                  <button
+                    onClick={() => toggleWishlist(book)}
+                    className="text-gray-300 hover:text-red-500 transition-colors"
+                    title="Remove from wishlist"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 truncate">{book.title}</h3>
                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">by {book.author}</p>
-                
+
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50 dark:border-gray-700">
                   <span className="text-2xl font-extrabold text-[#1a1a1a] dark:text-white tracking-tighter">₹{book.price}</span>
-                  <button 
+                  <button
                     onClick={() => {
-                        addToCart(book);
-                        toggleWishlist(book); // Move to cart means remove from wishlist
+                      addToCart(book);
+                      toggleWishlist(book);
                     }}
                     className="bg-[#1a1a1a] dark:bg-amber-600 text-white p-3 rounded-xl hover:bg-amber-600 dark:hover:bg-amber-500 transition-all shadow-lg shadow-black/5 active:scale-90"
                     title="Move to Cart"

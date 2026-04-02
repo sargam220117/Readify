@@ -5,7 +5,6 @@ const connectDB = require('./config/db');
 
 dotenv.config();
 
-// Connect to Database
 connectDB();
 
 const app = express();

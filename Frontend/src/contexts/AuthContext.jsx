@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check local storage for token on mount
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
 
@@ -29,13 +28,13 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { token, ...userData } = response.data;
-      
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
-      
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
-      
+
       return { success: true };
     } catch (error) {
       return {
@@ -54,10 +53,10 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { token, ...userData } = response.data;
-      
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
-      
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
 

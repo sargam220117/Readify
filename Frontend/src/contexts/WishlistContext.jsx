@@ -11,7 +11,6 @@ export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Initial load
   useEffect(() => {
     const fetchWishlist = async () => {
       if (user) {
@@ -35,7 +34,6 @@ export const WishlistProvider = ({ children }) => {
     fetchWishlist();
   }, [user]);
 
-  // Guest persistence
   useEffect(() => {
     if (!user) {
       localStorage.setItem('guestWishlist', JSON.stringify(wishlist));
@@ -45,7 +43,6 @@ export const WishlistProvider = ({ children }) => {
   const toggleWishlist = async (book) => {
     if (user) {
       if (wishlist.some(item => item._id === book._id)) {
-        // Remove
         try {
           const response = await axios.delete(`http://localhost:5000/api/wishlist/${user.id}/remove/${book._id}`);
           setWishlist(response.data);
@@ -53,7 +50,6 @@ export const WishlistProvider = ({ children }) => {
           console.error('Error removing from wishlist:', error);
         }
       } else {
-        // Add
         try {
           const response = await axios.post(`http://localhost:5000/api/wishlist/${user.id}/add`, {
             bookId: book._id

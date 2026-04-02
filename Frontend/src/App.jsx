@@ -26,7 +26,7 @@ import { WishlistProvider } from './contexts/WishlistContext';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
-// ... existing theme state ...
+
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
