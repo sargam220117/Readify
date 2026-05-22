@@ -44,10 +44,10 @@ const Cart = () => {
 
     try {
       // 1. Fetch Razorpay Key
-      const { data: { key } } = await axios.get('http://localhost:5001/api/orders/razorpay-key');
+      const { data: { key } } = await axios.get('https://readify-1-u98x.onrender.com/api/orders/razorpay-key');
 
       const { data } = await axios.post(
-        "http://localhost:5001/api/orders/create-order",
+        "https://readify-1-u98x.onrender.com/api/orders/create-order",
         { amount: cartTotal }
       );
 
@@ -85,7 +85,7 @@ const Cart = () => {
           };
 
           const verify = await axios.post(
-            "http://localhost:5001/api/orders/verify",
+            "https://readify-1-u98x.onrender.com/api/orders/verify",
             payload
           );
 
