@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/books');
+        const response = await axios.get('https://readify-1-u98x.onrender.com/api/books');
         setBooks(response.data);
         setLoading(false);
       } catch (error) {
