@@ -15,7 +15,7 @@ export const WishlistProvider = ({ children }) => {
     const fetchWishlist = async () => {
       if (user) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/wishlist/${user.id}`);
+          const response = await axios.get(`http://localhost:5001/api/wishlist/${user.id}`);
           setWishlist(response.data);
         } catch (error) {
           console.error('Error fetching wishlist:', error);
@@ -44,14 +44,14 @@ export const WishlistProvider = ({ children }) => {
     if (user) {
       if (wishlist.some(item => item._id === book._id)) {
         try {
-          const response = await axios.delete(`http://localhost:5000/api/wishlist/${user.id}/remove/${book._id}`);
+          const response = await axios.delete(`http://localhost:5001/api/wishlist/${user.id}/remove/${book._id}`);
           setWishlist(response.data);
         } catch (error) {
           console.error('Error removing from wishlist:', error);
         }
       } else {
         try {
-          const response = await axios.post(`http://localhost:5000/api/wishlist/${user.id}/add`, {
+          const response = await axios.post(`http://localhost:5001/api/wishlist/${user.id}/add`, {
             bookId: book._id
           });
           setWishlist(response.data);

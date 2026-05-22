@@ -14,7 +14,8 @@ export const AuthProvider = ({ children }) => {
     const userData = localStorage.getItem('user');
 
     if (token && userData) {
-      setUser(JSON.parse(userData));
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     setLoading(false);
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (identifier, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('http://localhost:5001/api/auth/login', {
         identifier,
         password,
       });
@@ -44,12 +45,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, email, password) => {
+  const register = async (username, email, password, role = 'user') => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post('http://localhost:5001/api/auth/register', {
         username,
         email,
         password,
+        role,
       });
 
       const { token, ...userData } = response.data;
@@ -77,13 +79,17 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const isAdmin = user?.role === 'admin';
+
   const value = {
     user,
     login,
     register,
     logout,
     loading,
+    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
+

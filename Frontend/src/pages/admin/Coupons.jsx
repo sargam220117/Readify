@@ -22,7 +22,7 @@ const Coupons = () => {
 
   const fetchCoupons = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/coupons');
+      const response = await axios.get('http://localhost:5001/api/coupons');
       setCoupons(response.data);
       setLoading(false);
     } catch (error) {
@@ -34,7 +34,7 @@ const Coupons = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/coupons', formData);
+      await axios.post('http://localhost:5001/api/coupons', formData);
       fetchCoupons();
       setShowModal(false);
       toast.success('Coupon created successfully!');
@@ -53,7 +53,7 @@ const Coupons = () => {
 
   const handleToggle = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/coupons/${id}/toggle`);
+      await axios.patch(`http://localhost:5001/api/coupons/${id}/toggle`);
       setCoupons(coupons.map(c => c._id === id ? { ...c, isActive: !c.isActive } : c));
       toast.success('Coupon status updated');
     } catch (error) {
@@ -64,7 +64,7 @@ const Coupons = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Delete this coupon?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/coupons/${id}`);
+        await axios.delete(`http://localhost:5001/api/coupons/${id}`);
         setCoupons(coupons.filter(c => c._id !== id));
         toast.success('Coupon deleted');
       } catch (error) {

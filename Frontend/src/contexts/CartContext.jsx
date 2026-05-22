@@ -17,7 +17,7 @@ export const CartProvider = ({ children }) => {
     const fetchCart = async () => {
       if (user) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/cart/${user.id}`);
+          const response = await axios.get(`http://localhost:5001/api/cart/${user.id}`);
           setCart(response.data);
         } catch (error) {
           console.error('Error fetching cart:', error);
@@ -45,7 +45,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (book, quantity = 1) => {
     if (user) {
       try {
-        const response = await axios.post(`http://localhost:5000/api/cart/${user.id}/add`, {
+        const response = await axios.post(`http://localhost:5001/api/cart/${user.id}/add`, {
           bookId: book._id,
           quantity
         });
@@ -70,7 +70,7 @@ export const CartProvider = ({ children }) => {
   const updateQuantity = async (bookId, quantity) => {
     if (user) {
       try {
-        const response = await axios.put(`http://localhost:5000/api/cart/${user.id}/update`, {
+        const response = await axios.put(`http://localhost:5001/api/cart/${user.id}/update`, {
           bookId,
           quantity
         });
@@ -91,7 +91,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (bookId) => {
     if (user) {
       try {
-        const response = await axios.delete(`http://localhost:5000/api/cart/${user.id}/remove/${bookId}`);
+        const response = await axios.delete(`http://localhost:5001/api/cart/${user.id}/remove/${bookId}`);
         setCart(response.data);
       } catch (error) {
         console.error('Error removing from cart:', error);
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }) => {
 
   const applyCoupon = async (code) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/coupons/validate', {
+      const response = await axios.post('http://localhost:5001/api/coupons/validate', {
         code,
         cartTotal: rawTotal
       });

@@ -22,7 +22,7 @@ const AdminSignup = () => {
 
     setLoading(true);
 
-    const result = await register(username, email, password);
+    const result = await register(username, email, password, 'admin');
 
     if (result.success) {
       navigate('/admin');

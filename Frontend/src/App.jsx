@@ -19,6 +19,8 @@ import UserSignup from './pages/Signup';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import Orders from './pages/Orders';
+import PaymentSuccess from './pages/PaymentSuccess';
+import Profile from './pages/Profile';
 import BookDetails from './pages/BookDetails';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
@@ -87,6 +89,14 @@ function App() {
         {
           path: "orders",
           element: <Orders />
+        },
+        {
+          path: "payment-success",
+          element: <PaymentSuccess />
+        },
+        {
+          path: "profile",
+          element: <Profile />
         },
         {
           path: "book/:id",

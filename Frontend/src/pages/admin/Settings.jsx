@@ -1,7 +1,9 @@
 import React from 'react';
 import { Save, User, Shield, Bell, Globe } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Settings = () => {
+  const { user } = useAuth();
   return (
     <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
@@ -50,7 +52,7 @@ const Settings = () => {
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-widest">Contact Email</label>
                 <input 
                   type="email" 
-                  defaultValue="admin@readify.com" 
+                  defaultValue={user?.email || 'admin@readify.com'} 
                   className="w-full px-4 py-3 bg-[#f7f3ec] dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all font-bold tracking-tight text-gray-900 dark:text-white"
                 />
               </div>

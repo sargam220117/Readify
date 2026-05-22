@@ -12,7 +12,7 @@ const Books = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/books');
+      const response = await axios.get('http://localhost:5001/api/books');
       setBooks(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,7 +38,7 @@ const Books = () => {
   const handleDeleteBook = async (id) => {
     if (window.confirm('Are you sure you want to delete this book?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/books/${id}`);
+        await axios.delete(`http://localhost:5001/api/books/${id}`);
         fetchBooks();
       } catch (error) {
         console.error('Error deleting book:', error);
@@ -49,9 +49,9 @@ const Books = () => {
   const handleSaveBook = async (formData) => {
     try {
       if (selectedBook) {
-        await axios.put(`http://localhost:5000/api/books/${selectedBook._id}`, formData);
+        await axios.put(`http://localhost:5001/api/books/${selectedBook._id}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/books', formData);
+        await axios.post('http://localhost:5001/api/books', formData);
       }
       setIsModalOpen(false);
       fetchBooks();

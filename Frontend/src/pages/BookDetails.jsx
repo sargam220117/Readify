@@ -30,7 +30,7 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/books/${id}`);
+        const response = await axios.get(`http://localhost:5001/api/books/${id}`);
         setBook(response.data);
         setLoading(false);
       } catch (error) {
@@ -89,7 +89,7 @@ const BookDetails = () => {
     });
 
     try {
-      await axios.post(`http://localhost:5000/api/books/${id}/reviews`, formData, {
+      await axios.post(`http://localhost:5001/api/books/${id}/reviews`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
@@ -98,7 +98,7 @@ const BookDetails = () => {
       setRating(5);
       setSelectedFiles([]);
 
-      const response = await axios.get(`http://localhost:5000/api/books/${id}`);
+      const response = await axios.get(`http://localhost:5001/api/books/${id}`);
       setBook(response.data);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to submit review');
@@ -111,10 +111,10 @@ const BookDetails = () => {
     if (!window.confirm('Are you sure you want to delete your review?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/books/${id}/reviews/${reviewId}`);
+      await axios.delete(`http://localhost:5001/api/books/${id}/reviews/${reviewId}`);
       toast.success('Review deleted');
 
-      const response = await axios.get(`http://localhost:5000/api/books/${id}`);
+      const response = await axios.get(`http://localhost:5001/api/books/${id}`);
       setBook(response.data);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to delete review');
@@ -451,7 +451,7 @@ const BookDetails = () => {
                       {review.images?.length > 0 && (
                         <div className="flex flex-wrap gap-4 mt-8 pl-6">
                           {review.images.map((img, idx) => {
-                            const fullImgUrl = img.startsWith('http') ? img : `http://localhost:5000${img}`;
+                            const fullImgUrl = img.startsWith('http') ? img : `http://localhost:5001${img}`;
                             return (
                               <div key={idx} className="w-28 h-28 rounded-[24px] overflow-hidden border-2 border-white dark:border-gray-800 shadow-md cursor-zoom-in group/img">
                                 <img

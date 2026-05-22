@@ -16,7 +16,7 @@ const AdminLayout = ({ theme, toggleTheme }) => {
     return <Navigate to="/admin/login" replace />;
   }
 
-  if (user.email !== 'admin@readify.com') {
+  if (user.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 

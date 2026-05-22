@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
-import { LogOut, Heart } from 'lucide-react';
+import { LogOut, Heart, User } from 'lucide-react';
 
 const Navbar = ({ theme, toggleTheme }) => {
   const { user, logout } = useAuth();
@@ -67,19 +67,22 @@ const Navbar = ({ theme, toggleTheme }) => {
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-500 flex items-center justify-center font-bold shadow-sm border border-amber-200 dark:border-amber-800 hover:ring-2 hover:ring-offset-2 hover:ring-amber-500 transition-all focus:outline-none"
                 >
-                  {user.username.charAt(0).toUpperCase()}
+                  {user?.username?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'}
                 </button>
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg py-1 ring-1 ring-black ring-opacity-5 border border-gray-200 dark:border-gray-700">
                     <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex flex-col">
-                      <span className="text-sm font-bold text-gray-900 dark:text-white truncate">{user.username}</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.username || 'User'}</span>
                       <span className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</span>
                     </div>
-                    {user.email === 'admin@readify.com' && (
+                    {user.role === 'admin' && (
                       <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold tracking-tight" onClick={() => setShowDropdown(false)}>
                         Admin Panel
                       </Link>
                     )}
+                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold tracking-tight flex items-center gap-2" onClick={() => setShowDropdown(false)}>
+                        <User size={14} className="text-amber-600" /> My Profile
+                      </Link>
                     <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold tracking-tight" onClick={() => setShowDropdown(false)}>
                       My Orders
                     </Link>

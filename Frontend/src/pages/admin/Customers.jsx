@@ -10,7 +10,7 @@ const Customers = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/customers');
+        const response = await axios.get('http://localhost:5001/api/admin/customers');
         setCustomers(response.data);
         setLoading(false);
       } catch (error) {

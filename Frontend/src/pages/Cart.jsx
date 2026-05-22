@@ -35,38 +35,86 @@ const Cart = () => {
     setTimeout(() => setCouponStatus({ success: null, message: '' }), 3000);
   };
 
-  const handleCheckout = async () => {
+  const handlePayment = async () => {
+    if (!user) {
+      toast.error('Please log in to proceed to checkout.');
+      navigate('/login');
+      return;
+    }
+
     try {
-      const orderData = {
-        userId: user.id,
-        items: cart.items.map(item => ({
-          book: item.book._id,
-          quantity: item.quantity,
-          price: item.book.price
-        })),
-        totalAmount: cartTotal,
-        discountAmount: discount,
-        couponCode: coupon?.code || null,
-        shippingAddress: {
-          fullName: user.username,
-          address: '123 Book St',
-          city: 'Read City',
-          state: 'Knowledge',
-          zipCode: '123456',
-          phone: '9876543210'
-        }
+      // 1. Fetch Razorpay Key
+      const { data: { key } } = await axios.get('http://localhost:5001/api/orders/razorpay-key');
+
+      const { data } = await axios.post(
+        "http://localhost:5001/api/orders/create-order",
+        { amount: cartTotal }
+      );
+
+      const options = {
+        key: key,
+        amount: data.order.amount,
+        currency: "INR",
+        name: "Readify",
+        description: "Book Purchase",
+        order_id: data.order.id,
+
+        handler: async function (response) {
+
+          // We append the other necessary data to the verification payload
+          // so our backend can save the order properly.
+          const payload = {
+            ...response,
+            userId: user.id,
+            items: cart.items.map(item => ({
+              book: item.book._id,
+              quantity: item.quantity,
+              price: item.book.price
+            })),
+            totalAmount: cartTotal,
+            discountAmount: discount,
+            couponCode: coupon?.code || null,
+            shippingAddress: {
+              fullName: user.username,
+              address: '123 Book St',
+              city: 'Read City',
+              state: 'Knowledge',
+              zipCode: '123456',
+              phone: '9876543210'
+            }
+          };
+
+          const verify = await axios.post(
+            "http://localhost:5001/api/orders/verify",
+            payload
+          );
+
+          if (verify.data.success) {
+            clearCart();
+            window.location.href = "/payment-success";
+          }
+        },
+
+        prefill: {
+          name: "Test User",
+          email: "test@test.com",
+          contact: "9999999999",
+        },
+
+        theme: {
+          color: "#3399cc",
+        },
       };
 
-      const response = await axios.post('http://localhost:5000/api/orders', orderData);
+      const rzp = new window.Razorpay(options);
 
-      if (response.status === 201) {
-        toast.success('Order placed successfully!');
-        clearCart();
-        navigate('/orders');
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      toast.error('Failed to place order. Please try again.');
+      rzp.on("payment.failed", function (response) {
+        toast.error(`Payment Failed: ${response.error.description || 'Unknown error'}`);
+      });
+
+      rzp.open();
+    } catch (err) {
+      toast.error('Failed to initiate checkout.');
     }
   };
 
@@ -205,7 +253,7 @@ const Cart = () => {
                 )}
               </div>
               <button
-                onClick={handleCheckout}
+                onClick={handlePayment}
                 className="w-full bg-amber-600 hover:bg-amber-700 text-white py-5 rounded-none font-bold text-lg transition-all shadow-lg shadow-amber-600/20 active:scale-95 flex items-center justify-center gap-2 group"
               >
                 Checkout Now
@@ -223,8 +271,8 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
-
 export default Cart;

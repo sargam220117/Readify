@@ -3,8 +3,9 @@ const router = express.Router();
 const Book = require('../models/Book');
 const User = require('../models/User');
 const Order = require('../models/Order');
+const { protect, admin } = require('../middleware/authMiddleware');
 
-router.get('/stats', async (req, res) => {
+router.get('/stats', protect, admin, async (req, res) => {
   try {
     const totalBooks = await Book.countDocuments();
     const totalCustomers = await User.countDocuments();
@@ -30,7 +31,7 @@ router.get('/stats', async (req, res) => {
   }
 });
 
-router.get('/customers', async (req, res) => {
+router.get('/customers', protect, admin, async (req, res) => {
   try {
     const customers = await User.find({}).select('-password').sort({ createdAt: -1 });
     res.json(customers);
@@ -39,7 +40,7 @@ router.get('/customers', async (req, res) => {
   }
 });
 
-router.get('/orders', async (req, res) => {
+router.get('/orders', protect, admin, async (req, res) => {
   try {
     const orders = await Order.find({})
       .populate('user', 'username email')

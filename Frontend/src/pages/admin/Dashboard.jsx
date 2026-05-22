@@ -22,7 +22,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/stats');
+        const response = await axios.get('http://localhost:5001/api/admin/stats');
         setStatsData(response.data);
         setLoading(false);
       } catch (error) {
