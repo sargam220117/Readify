@@ -17,7 +17,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/orders/user/${user.id}`);
+      const response = await axios.get(`https://readify-1-u98x.onrender.com/api/orders/user/${user.id}`);
       setOrders(response.data);
       setLoading(false);
     } catch (error) {
